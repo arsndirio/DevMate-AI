@@ -2,12 +2,10 @@
 
 /**
  * src/components/layout/Header.tsx
- * Header area utama yang bersih dan profesional dengan konteks percakapan,
- * label status sistem, dan kontrol navigasi.
+ * Header ringkas dan fungsional tanpa badge dekoratif yang mengalihkan perhatian.
  */
 
 import { Icon } from "@/components/ui/Icon";
-import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 
 export interface HeaderProps {
@@ -15,6 +13,7 @@ export interface HeaderProps {
   isSidebarOpen: boolean;
   onToggleSidebar: () => void;
   onNewChat: () => void;
+  onOpenSettings: () => void;
 }
 
 export function Header({
@@ -22,53 +21,48 @@ export function Header({
   isSidebarOpen,
   onToggleSidebar,
   onNewChat,
+  onOpenSettings,
 }: HeaderProps) {
   return (
-    <header className="h-14 border-b border-zinc-200/90 bg-white/95 backdrop-blur-xs flex items-center justify-between px-4 sticky top-0 z-20 select-none">
-      {/* Left: Sidebar Toggle & Context Title */}
-      <div className="flex items-center gap-3 min-w-0">
+    <header className="h-12 border-b border-zinc-200/90 bg-white/95 backdrop-blur-2xs flex items-center justify-between px-3.5 sticky top-0 z-20 select-none">
+      {/* Left Context */}
+      <div className="flex items-center gap-2.5 min-w-0">
         <button
           onClick={onToggleSidebar}
           type="button"
-          className="p-1.5 rounded-lg text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 transition-colors cursor-pointer"
-          title={isSidebarOpen ? "Sembunyikan Sidebar" : "Tampilkan Sidebar"}
+          className="p-1 rounded-md text-zinc-500 hover:text-zinc-900 hover:bg-zinc-100 transition-colors cursor-pointer"
+          title={isSidebarOpen ? "Sembunyikan bilah samping" : "Tampilkan bilah samping"}
           aria-label="Toggle Sidebar"
         >
-          <Icon name="sidebar" size={18} />
+          <Icon name="sidebar" size={16} />
         </button>
 
-        <div className="flex items-center gap-2.5 min-w-0">
-          <h2 className="text-sm font-semibold text-zinc-900 truncate max-w-[200px] sm:max-w-md">
-            {conversationTitle}
-          </h2>
-
-          <div className="hidden sm:flex items-center gap-1.5">
-            <Badge variant="primary" size="sm">
-              AI Coding Assistant
-            </Badge>
-            <Badge variant="outline" size="sm">
-              Mode Demo UI
-            </Badge>
-          </div>
-        </div>
+        <h2 className="text-xs sm:text-sm font-medium text-zinc-800 truncate max-w-[220px] sm:max-w-md">
+          {conversationTitle}
+        </h2>
       </div>
 
-      {/* Right: Quick Actions & Status */}
-      <div className="flex items-center gap-2.5">
-        <div className="hidden md:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-200/80 text-emerald-700 text-xs font-medium">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-          <span>Lokal • Siap</span>
-        </div>
-
+      {/* Right Actions */}
+      <div className="flex items-center gap-2">
         <Button
           variant="outline"
           size="sm"
           icon="plus"
           onClick={onNewChat}
-          className="hidden sm:inline-flex text-xs"
+          className="text-xs py-1"
         >
           <span>Chat Baru</span>
         </Button>
+
+        <button
+          onClick={onOpenSettings}
+          type="button"
+          className="p-1.5 rounded-md text-zinc-500 hover:text-zinc-900 hover:bg-zinc-100 transition-colors cursor-pointer"
+          title="Buka pengaturan analisis"
+          aria-label="Pengaturan"
+        >
+          <Icon name="sliders" size={15} />
+        </button>
       </div>
     </header>
   );

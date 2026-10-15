@@ -1,9 +1,3 @@
-/**
- * src/components/ui/Button.tsx
- * Komponen tombol UI generik yang reusable dan accessible untuk DevMate AI.
- */
-
-import React from "react";
 import { cn } from "@/lib/utils/cn";
 import { Icon, type IconName } from "./Icon";
 
@@ -21,22 +15,22 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 
 const variantClasses: Record<ButtonVariant, string> = {
   primary:
-    "bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 shadow-xs border border-blue-600/20 disabled:bg-blue-300 disabled:cursor-not-allowed",
+    "bg-zinc-900 text-white hover:bg-zinc-800 active:bg-zinc-950 border border-zinc-900 disabled:opacity-40 disabled:cursor-not-allowed shadow-2xs",
   secondary:
-    "bg-zinc-100 text-zinc-900 hover:bg-zinc-200 active:bg-zinc-300 border border-zinc-200 disabled:opacity-50 disabled:cursor-not-allowed",
+    "bg-zinc-100 text-zinc-900 hover:bg-zinc-200/80 active:bg-zinc-200 border border-zinc-200/80 disabled:opacity-40 disabled:cursor-not-allowed",
   outline:
-    "bg-white text-zinc-800 hover:bg-zinc-50 active:bg-zinc-100 border border-zinc-300 disabled:opacity-50 disabled:cursor-not-allowed",
+    "bg-white text-zinc-700 hover:bg-zinc-50 active:bg-zinc-100 border border-zinc-300/90 disabled:opacity-40 disabled:cursor-not-allowed shadow-2xs",
   ghost:
-    "bg-transparent text-zinc-700 hover:bg-zinc-100 hover:text-zinc-900 active:bg-zinc-200 disabled:opacity-50 disabled:cursor-not-allowed",
+    "bg-transparent text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 active:bg-zinc-200/70 disabled:opacity-40 disabled:cursor-not-allowed",
   subtle:
-    "bg-blue-50 text-blue-700 hover:bg-blue-100 active:bg-blue-200 border border-blue-200/60 disabled:opacity-50 disabled:cursor-not-allowed",
+    "bg-zinc-100/80 text-zinc-700 hover:bg-zinc-200/70 active:bg-zinc-200 border border-zinc-200/60 disabled:opacity-40 disabled:cursor-not-allowed",
 };
 
 const sizeClasses: Record<ButtonSize, string> = {
-  sm: "text-xs px-2.5 py-1.5 rounded-md gap-1.5",
-  md: "text-sm px-3.5 py-2 rounded-lg gap-2",
-  lg: "text-base px-4 py-2.5 rounded-lg gap-2.5",
-  icon: "p-2 rounded-lg justify-center",
+  sm: "text-xs px-2.5 py-1 rounded-md gap-1.5 font-medium",
+  md: "text-xs px-3 py-1.5 rounded-md gap-1.5 font-medium",
+  lg: "text-sm px-4 py-2 rounded-md gap-2 font-medium",
+  icon: "p-1.5 rounded-md justify-center",
 };
 
 export function Button({
@@ -51,12 +45,12 @@ export function Button({
   ...props
 }: ButtonProps) {
   const baseClasses =
-    "inline-flex items-center font-medium transition-colors duration-150 cursor-pointer select-none focus-visible:outline-2 focus-visible:outline-blue-600 focus-visible:outline-offset-2";
+    "inline-flex items-center transition-colors duration-100 cursor-pointer select-none focus-visible:outline-2 focus-visible:outline-zinc-800 focus-visible:outline-offset-1";
 
   const iconElement = icon && !isLoading ? (
     <Icon
       name={icon}
-      size={size === "sm" ? 14 : size === "lg" ? 20 : 16}
+      size={size === "sm" ? 13 : size === "lg" ? 16 : 14}
       className={children ? (iconPosition === "left" ? "-ml-0.5" : "-mr-0.5") : ""}
     />
   ) : null;
@@ -68,7 +62,7 @@ export function Button({
       {...props}
     >
       {isLoading ? (
-        <span className="inline-block animate-spin mr-1.5 h-3.5 w-3.5 border-2 border-current border-t-transparent rounded-full" />
+        <span className="inline-block animate-spin mr-1 h-3 w-3 border-2 border-current border-t-transparent rounded-full" />
       ) : null}
 
       {iconPosition === "left" ? iconElement : null}

@@ -2,22 +2,19 @@
 
 /**
  * src/components/chat/ChatComposer.tsx
- * Komponen input pertanyaan (composer) dengan textarea multi-line,
- * tombol sisipkan blok kode, bilah pengaturan analisis, dan tombol kirim responsif.
+ * Kolom input pertanyaan bersih dengan textarea yang nyaman,
+ * kontrol sisipkan kode, pembuka modal pengaturan, dan tombol kirim presisi.
  */
 
 import { useRef } from "react";
-import type { AnalysisSettings } from "@/types/chat";
 import { Icon } from "@/components/ui/Icon";
 import { Button } from "@/components/ui/Button";
-import { AnalysisSettingsBar } from "./AnalysisSettingsBar";
 
 export interface ChatComposerProps {
   prompt: string;
   onPromptChange: (value: string) => void;
   onSubmit: (prompt: string) => void;
-  settings: AnalysisSettings;
-  onSettingsChange: (settings: AnalysisSettings) => void;
+  onOpenSettings: () => void;
   isLoading?: boolean;
 }
 
@@ -25,8 +22,7 @@ export function ChatComposer({
   prompt,
   onPromptChange,
   onSubmit,
-  settings,
-  onSettingsChange,
+  onOpenSettings,
   isLoading = false,
 }: ChatComposerProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -41,7 +37,7 @@ export function ChatComposer({
   };
 
   const handleInsertCodeSnippet = () => {
-    const codeTemplate = `\n\`\`\`typescript\n// Tempelkan kode atau error trace di sini\nfunction contoh() {\n  \n}\n\`\`\`\n`;
+    const codeTemplate = `\n\`\`\`typescript\n// Tempelkan kode atau error trace di sini\n\n\`\`\`\n`;
     onPromptChange(prompt + codeTemplate);
     setTimeout(() => {
       textareaRef.current?.focus();
@@ -56,81 +52,62 @@ export function ChatComposer({
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto px-4 pb-4">
-      {/* Container Frame */}
-      <div className="flex flex-col bg-white border border-zinc-300/90 rounded-2xl shadow-sm focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-100 transition-all duration-150 overflow-hidden">
-        {/* Settings Bar */}
-        <div className="px-3 pt-2.5 pb-1">
-          <AnalysisSettingsBar settings={settings} onChange={onSettingsChange} />
-        </div>
-
-        {/* Form & Textarea */}
-        <form onSubmit={handleSubmit} className="flex flex-col p-3">
+    <div className="w-full max-w-3xl mx-auto px-4 pb-4 select-none">
+      <div className="flex flex-col bg-white border border-zinc-300 rounded-lg shadow-2xs focus-within:border-zinc-500 focus-within:ring-1 focus-within:ring-zinc-400 transition-colors p-2.5">
+        <form onSubmit={handleSubmit} className="flex flex-col">
           <textarea
             ref={textareaRef}
             value={prompt}
             onChange={(e) => onPromptChange(e.target.value)}
             onKeyDown={handleKeyDown}
-            rows={3}
-            placeholder="Tanyakan error TypeScript, tempelkan stack trace, atau minta saran arsitektur kode..."
-            className="w-full resize-none bg-transparent text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-hidden leading-relaxed min-h-[72px] max-h-[220px]"
+            rows={2}
+            placeholder="Tanyakan error atau tempelkan potongan kode... (Enter untuk kirim)"
+            className="w-full resize-none bg-transparent text-xs sm:text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-none leading-relaxed min-h-[56px] max-h-[160px]"
           />
 
-          {/* Composer Toolbar Bottom */}
-          <div className="flex items-center justify-between pt-2 mt-1 border-t border-zinc-100">
-            {/* Left helpers */}
-            <div className="flex items-center gap-1.5 text-xs">
+          {/* Bottom toolbar */}
+          <div className="flex items-center justify-between pt-2 border-t border-zinc-100">
+            <div className="flex items-center gap-1.5">
               <button
                 type="button"
                 onClick={handleInsertCodeSnippet}
-                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 border border-zinc-200/80 transition-colors cursor-pointer select-none"
+                className="inline-flex items-center gap-1 px-2 py-1 rounded text-xs text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 transition-colors cursor-pointer"
                 title="Sisipkan format blok kode markdown"
               >
-                <Icon name="code" size={13} className="text-blue-600" />
-                <span className="font-medium text-[11px]">Sisipkan Kode</span>
+                <Icon name="code" size={13} className="text-zinc-500" />
+                <span className="text-[11px] font-medium">Sisipkan Kode</span>
               </button>
 
-              {prompt.length > 0 ? (
-                <button
-                  type="button"
-                  onClick={() => onPromptChange("")}
-                  className="inline-flex items-center gap-1 px-2 py-1 rounded-md text-zinc-400 hover:text-zinc-700 hover:bg-zinc-100 transition-colors cursor-pointer text-[11px]"
-                  title="Kosongkan teks"
-                >
-                  <Icon name="close" size={12} />
-                  <span>Hapus</span>
-                </button>
-              ) : null}
-            </div>
-
-            {/* Right actions */}
-            <div className="flex items-center gap-2">
-              <span className="hidden sm:inline text-[11px] text-zinc-400">
-                Tekan <kbd className="font-mono bg-zinc-100 px-1 py-0.5 rounded border border-zinc-200 text-zinc-600">Enter ↵</kbd> untuk kirim
-              </span>
-
-              <Button
-                type="submit"
-                variant="primary"
-                size="sm"
-                disabled={!prompt.trim() || isLoading}
-                isLoading={isLoading}
-                icon="arrow-up"
-                className="rounded-lg px-3 py-1.5 cursor-pointer"
-                title="Kirim pesan"
+              <button
+                type="button"
+                onClick={onOpenSettings}
+                className="inline-flex items-center gap-1 px-2 py-1 rounded text-xs text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 transition-colors cursor-pointer"
+                title="Buka pengaturan parameter analisis"
               >
-                <span>Kirim</span>
-              </Button>
+                <Icon name="sliders" size={13} className="text-zinc-500" />
+                <span className="text-[11px] font-medium">Pengaturan</span>
+              </button>
             </div>
+
+            <Button
+              type="submit"
+              variant="primary"
+              size="sm"
+              disabled={!prompt.trim() || isLoading}
+              isLoading={isLoading}
+              icon="arrow-up"
+              className="rounded-md px-3 py-1 cursor-pointer"
+              title="Kirim pesan"
+            >
+              <span>Kirim</span>
+            </Button>
           </div>
         </form>
       </div>
 
-      {/* Helper disclaimer */}
-      <div className="flex items-center justify-between px-2 pt-2 text-[11px] text-zinc-400">
-        <span>DevMate AI dapat membuat kekeliruan. Verifikasi kode penting sebelum deployment.</span>
-        <span className="font-mono text-zinc-400 hidden md:inline">Mode Pratinjau UI • v0.1</span>
-      </div>
+      <p className="text-[11px] text-zinc-400 text-center mt-2">
+        DevMate AI dapat membuat kekeliruan. Selalu verifikasi kode kritis sebelum produksi.
+      </p>
     </div>
   );
 }

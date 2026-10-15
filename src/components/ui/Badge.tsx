@@ -1,13 +1,7 @@
-/**
- * src/components/ui/Badge.tsx
- * Komponen label status / badge untuk penanda konteks, status model, dan bahasa pemrograman.
- */
-
-import React from "react";
 import { cn } from "@/lib/utils/cn";
 import { Icon, type IconName } from "./Icon";
 
-export type BadgeVariant = "default" | "primary" | "success" | "warning" | "info" | "outline";
+export type BadgeVariant = "default" | "primary" | "outline" | "subtle";
 export type BadgeSize = "sm" | "md";
 
 export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
@@ -18,17 +12,15 @@ export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
 }
 
 const variantClasses: Record<BadgeVariant, string> = {
-  default: "bg-zinc-100 text-zinc-700 border-zinc-200",
-  primary: "bg-blue-50 text-blue-700 border-blue-200/80",
-  success: "bg-emerald-50 text-emerald-700 border-emerald-200/80",
-  warning: "bg-amber-50 text-amber-800 border-amber-200/80",
-  info: "bg-sky-50 text-sky-700 border-sky-200/80",
-  outline: "bg-white text-zinc-600 border-zinc-300",
+  default: "bg-zinc-100 text-zinc-700 border-zinc-200/80",
+  primary: "bg-zinc-900 text-zinc-100 border-zinc-900",
+  outline: "bg-white text-zinc-600 border-zinc-200",
+  subtle: "bg-zinc-50 text-zinc-600 border-zinc-200/60",
 };
 
 const sizeClasses: Record<BadgeSize, string> = {
-  sm: "text-[11px] px-2 py-0.5 rounded-md gap-1 font-medium",
-  md: "text-xs px-2.5 py-1 rounded-md gap-1.5 font-medium",
+  sm: "text-[11px] px-1.5 py-0.5 rounded gap-1 font-normal",
+  md: "text-xs px-2 py-0.5 rounded gap-1.5 font-medium",
 };
 
 export function Badge({
@@ -42,14 +34,14 @@ export function Badge({
   return (
     <span
       className={cn(
-        "inline-flex items-center border select-none transition-colors",
+        "inline-flex items-center border select-none",
         variantClasses[variant],
         sizeClasses[size],
         className
       )}
       {...props}
     >
-      {icon ? <Icon name={icon} size={size === "sm" ? 12 : 14} /> : null}
+      {icon ? <Icon name={icon} size={size === "sm" ? 11 : 13} /> : null}
       {children}
     </span>
   );
