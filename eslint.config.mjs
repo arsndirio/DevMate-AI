@@ -39,8 +39,9 @@ export default defineConfig([
       "no-console": "warn",
       "prefer-const": "error",
       "no-var": "error",
-      // Unused variables are enforced strictly by TypeScript (tsc --noEmit with noUnusedLocals & noUnusedParameters)
+      // Unused variables and undefs are strictly enforced by TypeScript compiler (tsc --noEmit)
       "no-unused-vars": "off",
+      "no-undef": "off",
       "no-duplicate-imports": "error",
       "eqeqeq": ["error", "always"],
     },

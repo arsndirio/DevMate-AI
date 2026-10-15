@@ -203,6 +203,19 @@
 
 ---
 
+## TD-010 — PostCSS Configuration untuk Tailwind CSS v4
+
+**Tanggal:** 2026-10-16
+**Status:** Aktif
+
+**Keputusan:** Membuat `postcss.config.mjs` yang mendaftarkan `@tailwindcss/postcss` plugin.
+
+**Alasan:**
+- Next.js 16 memerlukan file konfigurasi PostCSS root untuk mengeksekusi `@import "tailwindcss";` dari `src/app/globals.css`.
+- Menghasilkan file CSS utility Tailwind v4 yang dikompilasi secara efisien tanpa memerlukan runtime CSS-in-JS.
+
+---
+
 ## Template untuk Keputusan Baru
 
 ```markdown

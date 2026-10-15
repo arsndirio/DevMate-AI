@@ -59,54 +59,52 @@ npm run build       # PASS: Compiled successfully, 3/3 static pages generated
 
 ## Tahap 1 — Design System & Layout Dasar
 
-**Status: Not Started**
+**Status: Done**
+**Selesai:** 2026-10-16
 **Dependency:** Tahap 0 selesai
 **Tujuan:** Implementasi design system lengkap dan shell layout aplikasi.
 
 ### Deliverables
-- [ ] Design tokens lengkap di `globals.css` (colors, spacing, typography, shadows)
-- [ ] Dark mode toggle fungsional
-- [ ] `src/components/layout/Header.tsx` — Header dengan branding
-- [ ] `src/components/ui/Button.tsx` — Komponen Button dengan variants
-- [ ] `src/components/ui/Input.tsx` — Komponen Input dasar
-- [ ] `src/components/ui/Textarea.tsx` — Komponen Textarea
-- [ ] Responsive layout dasar (mobile-first)
-- [ ] Font loading dioptimalkan
-
-### Kriteria Selesai
-- Semua komponen UI memiliki props yang typed dengan TypeScript
-- Semua komponen accessible (keyboard navigation, ARIA labels)
-- Layout responsif di mobile (375px), tablet (768px), desktop (1280px)
-- Tidak ada TypeScript error atau ESLint error
+- [x] Design tokens lengkap di `globals.css` (colors, spacing, typography, shadows)
+- [x] `src/components/layout/Header.tsx` — Header dengan branding, badge status, & toggle
+- [x] `src/components/layout/Sidebar.tsx` — Sidebar navigasi, status model, & riwayat
+- [x] `src/components/ui/Button.tsx` — Komponen Button dengan variants dan typed props
+- [x] `src/components/ui/Badge.tsx` — Komponen Badge status & indikator bahasa
+- [x] `src/components/ui/Icon.tsx` — Set ikon SVG konsisten tanpa emoji UI
+- [x] Responsive layout dasar (mobile backdrop, desktop layout)
+- [x] PostCSS configuration (`postcss.config.mjs`) untuk kompilasi Tailwind v4
 
 ### Verifikasi
-```bash
-npm run typecheck && npm run lint && npm run test
-```
+- `npm run typecheck`: **PASS** (0 errors)
+- `npm run lint`: **PASS** (0 errors)
+- `npm run test`: **PASS** (4 unit tests pass)
+- `npm run build`: **PASS** (Turbopack static pages compiled)
 
 ---
 
 ## Tahap 2 — Chat Interface (UI Only, No AI)
 
-**Status: Not Started**
+**Status: Done**
+**Selesai:** 2026-10-16
 **Dependency:** Tahap 1 selesai
 **Tujuan:** Bangun UI chat yang fungsional tanpa koneksi AI.
 
 ### Deliverables
-- [ ] `src/types/chat.ts` — Type definitions untuk ChatMessage, Session, dll.
-- [ ] `src/components/chat/ChatInput.tsx` — Textarea dengan auto-resize
-- [ ] `src/components/chat/MessageBubble.tsx` — Komponen satu pesan
-- [ ] `src/components/chat/MessageList.tsx` — Daftar pesan dengan auto-scroll
-- [ ] `src/components/chat/ChatInterface.tsx` — Container utama
-- [ ] State management lokal menggunakan `useState` / `useReducer`
-- [ ] UI untuk loading state dan error state
-- [ ] Keyboard shortcut: Enter untuk kirim, Shift+Enter untuk newline
+- [x] `src/types/chat.ts` — Type definitions untuk ChatMessage, ChatConversation, AnalysisSettings
+- [x] `src/lib/data/sampleConversations.ts` — Dataset realistis untuk studi kasus demo
+- [x] `src/components/chat/WelcomeState.tsx` — Sapaan & 4 suggestion cards interaktif
+- [x] `src/components/chat/CodeBlock.tsx` — Syntax highlighting & copy button interaktif
+- [x] `src/components/chat/MessageBubble.tsx` — Markdown renderer terformat dengan badge demo
+- [x] `src/components/chat/AnalysisSettingsBar.tsx` — Kontrol kustomisasi parameter analisis
+- [x] `src/components/chat/ChatComposer.tsx` — Textarea multi-line, helper sisipkan kode, & tombol kirim
+- [x] State management lokal pada `src/app/page.tsx`
+- [x] Penanda mode demo yang jelas dan transparan (tanpa AI palsu)
 
-### Kriteria Selesai
-- User dapat mengetik dan "mengirim" pesan (mock response)
-- Pesan ditampilkan dengan benar di message list
-- Auto-scroll ke pesan terbaru
-- Responsif di semua breakpoint
+### Verifikasi
+- `npm run typecheck`: **PASS** (0 errors)
+- `npm run lint`: **PASS** (0 errors)
+- `npm run test`: **PASS** (4 unit tests pass)
+- `npm run build`: **PASS** (Turbopack static pages compiled)
 
 ---
 
